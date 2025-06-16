@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@layer components {
+  .categoryPd {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .chatBoxBorder {
+    border: 1px solid #c9c9c9;
+    border-radius: 12px;
+    box-sizing: border-box;
+  }
+
+  @keyframes softBlink {
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+@layer base {
+  button {
+    cursor: pointer;
+  }
+
+  ul,
+  ol,
+  li {
+    list-style: none;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html {
+    scrollbar-width: none;
+  }
+}

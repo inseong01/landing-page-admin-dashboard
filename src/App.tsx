@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useAtomValue } from "jotai";
 
+import { categoryAtom } from "./util/store/atom/global";
+
+import SidebarDisplay from "./feature/sidebar/sidebar-index";
+import ChatUIDisplay from "./feature/chat/src/chat-index";
+import SupbaseChannelSubscribe from "./feature/chat/src/chat-subscribe";
+
+/*
+  채팅 에러 예외처리
+  - leave 되어서 sync 때 연동되지 않았을 때 메시지 수신 가능하도록
+
+  로그인 기능 구현
+*/
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <main className="flex h-screen w-full bg-[#FAFAFA] font-[Noto_Sans]">
+      {/* left */}
+      <SidebarDisplay />
+
+      {/* right */}
+      <div className="h-full w-full flex-1">
+        <SupbaseChannelSubscribe>
+          <CategoryUIDisplay />
+        </SupbaseChannelSubscribe>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </main>
+  );
 }
 
-export default App
+export default App;
+
+function CategoryUIDisplay() {
+  const cateogry = useAtomValue(categoryAtom);
+
+  switch (cateogry) {
+    case "로그인": {
+      return <></>;
+    }
+    case "실시간 문의": {
+      return <ChatUIDisplay />;
+    }
+    default: {
+      return <></>;
+    }
+  }
+}
