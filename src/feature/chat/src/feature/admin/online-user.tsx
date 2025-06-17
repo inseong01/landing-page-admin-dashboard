@@ -1,9 +1,9 @@
 import { useContext } from "react";
 
 import type { MessageMetaData } from "../../util/const/const";
+import { getDateTime } from "../../util/function/get-time";
 
 import { AdminDispatchContext, AdminReducerStateContext } from "./context";
-import { getDateTime } from "./function/get-time";
 
 export default function OnlineUser({
   id,
@@ -51,7 +51,7 @@ export default function OnlineUser({
       className={`box-border w-full cursor-pointer p-3 pr-7 pl-7 hover:bg-[#f2f2f2] ${id === selectedID ? "bg-[#f2f2f2]" : ""}`}
       onClick={onClickOpenBtn}
     >
-      <div className="mb-1.5 flex items-center justify-between text-[#a7a7a7]">
+      <div className="mb-1.5 flex items-center justify-between text-[#a7a7a7] max-lg:text-sm">
         {/* 사용자 이름 */}
         <span className="w-3/5 overflow-hidden text-base text-ellipsis whitespace-nowrap text-[#222]">
           {name}
@@ -60,7 +60,7 @@ export default function OnlineUser({
         {/* 사용자 상태 및 수신 시간 */}
         <span className="font-bold">{userStatusOrSentAt}</span>
       </div>
-      <div className="flex h-6 w-full justify-between overflow-hidden leading-5 text-ellipsis whitespace-nowrap">
+      <div className="flex h-6 w-full justify-between overflow-hidden leading-5 text-ellipsis whitespace-nowrap max-lg:text-sm">
         {/* 메시지 미리보기 */}
         <span className="w-4/5 max-w-[230px] overflow-x-hidden text-ellipsis whitespace-nowrap text-[#606060]">
           {isTyping ? "작성중.." : text}

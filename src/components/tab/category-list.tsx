@@ -26,12 +26,12 @@ export default function CategoryList({
       className={`categoryPd flex ${cateogry === listTitle ? "bg-[#e6e6e6]" : ""} ${url ? "cursor-default" : "cursor-pointer"} items-center justify-between hover:bg-[#e6e6e6]`}
       onClick={onClick}
     >
-      <div className="flex items-center gap-7">
-        <div className="flex h-10 w-10">
+      <div className="flex items-center gap-7 max-lg:gap-3.5">
+        <div className="flex h-10 w-10 max-lg:h-7 max-lg:w-7">
           <img src={icon_src} alt={icon_alt} />
         </div>
 
-        <div className="flex items-center justify-center gap-3 text-xl font-bold text-[#7D7D7D]">
+        <div className="flex items-center justify-center gap-3 text-xl font-bold text-[#7D7D7D] max-lg:text-lg">
           <span>{listTitle}</span>
 
           {hasAlert && (
@@ -41,11 +41,11 @@ export default function CategoryList({
       </div>
 
       {hasURL && (
-        <a className="flex p-1.5" href={url} target="blank">
+        <a className="flex p-1.5" href={url} target="_blank">
           <img
             src={ICON_MOVE_WINDOW}
             alt="새로운 창 열기"
-            className="h-[20px] w-[20px]"
+            className="h-[20px] w-[20px] max-lg:h-[18px] max-lg:w-[18px]"
           />
         </a>
       )}

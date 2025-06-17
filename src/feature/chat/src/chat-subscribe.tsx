@@ -1,20 +1,22 @@
-import { useEffect, useReducer, type ReactNode } from "react";
+import { useEffect, useReducer, useRef, type ReactNode } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
 
 import { UserIDContextContext } from "./util/context/global";
 import {
   ADMIN_ID,
+  userStatus,
   type CustomPresence,
   type MessageMetaData,
 } from "./util/const/const";
 import { supabase } from "./util/supabase/supabase-client";
+import { reconnectionAtom } from "./util/store/atom";
+import { receivedMsgStateAtom } from "../../../util/store/atom/global";
 
 import { adminReducer, initAdminAppState } from "./feature/admin/reducer";
 import {
   AdminDispatchContext,
   AdminReducerStateContext,
 } from "./feature/admin/context";
-import { receivedMsgStateAtom } from "../../../util/store/atom/global";
-import { useSetAtom } from "jotai";
 
 const ID = ADMIN_ID;
 
@@ -27,18 +29,12 @@ export default function SupbaseChannelSubscribe({
     adminReducer,
     initAdminAppState,
   );
+  const reconnectRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const hasReceivedMsgState = useSetAtom(receivedMsgStateAtom);
+  const reconnection = useAtomValue(reconnectionAtom);
+  const toggleReconnection = useSetAtom(reconnectionAtom);
 
   useEffect(() => {
-    const userStatus: CustomPresence = {
-      userID: ID,
-      userName: "ADMIN",
-      online_at: new Date().toISOString(),
-      isOnline: true,
-      isTyping: false,
-      messages: [],
-    };
-
     const MY_CHANNEL = supabase
       /* 채팅방 설정 */
       .channel("channel_1", {
@@ -69,20 +65,24 @@ export default function SupbaseChannelSubscribe({
 
     MY_CHANNEL
       /* 채팅방 연결 */
+      .on("presence", { event: "join" }, ({ key, newPresences }) => {
+        if (key === ADMIN_ID) return;
+
+        adminDispatch({
+          type: "ADD_USER_LIST",
+          userID: key,
+          newPresences: newPresences[0] as CustomPresence,
+        });
+      })
       .on("presence", { event: "sync" }, () => {
         const presenceState = MY_CHANNEL.presenceState<CustomPresence>();
-        const myID = ADMIN_ID;
 
-        console.log("sync", presenceState);
-
-        adminDispatch({ type: "ADD_USER_LIST", list: presenceState, myID }); // 렌더링 2~3회 유발
+        adminDispatch({ type: "SYNC_USER_LIST", list: presenceState }); // 렌더링 2~3회 유발
       })
       .on("presence", { event: "leave" }, ({ key }) => {
         if (key === ADMIN_ID) return;
 
-        console.log("leave", key);
-
-        adminDispatch({ type: "UPDATE_USER_OFFLINE", key });
+        adminDispatch({ type: "SET_USER_OFFLINE", key });
       });
 
     MY_CHANNEL
@@ -93,10 +93,16 @@ export default function SupbaseChannelSubscribe({
         await MY_CHANNEL.track(userStatus);
       });
 
+    reconnectRef.current = setTimeout(() => {
+      toggleReconnection((prev) => !prev);
+    }, 1000 * 60);
+
     return () => {
       MY_CHANNEL.unsubscribe();
+
+      if (reconnectRef.current) clearTimeout(reconnectRef.current);
     };
-  }, []);
+  }, [reconnection]);
 
   const receivedMsgCount = Object.keys(adminState.userList).reduce(
     (acc, id) => {

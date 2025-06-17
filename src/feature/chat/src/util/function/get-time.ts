@@ -1,29 +1,29 @@
-type getType = 'full' | 'time' | 'elapsed';
+type getType = "full" | "time" | "elapsed" | "countdown";
 
 export function getDateTime(type: getType, date: Date) {
-  const formattedTime = date.toLocaleString('ko-KR', {
-    hour: '2-digit',
-    minute: '2-digit',
+  const formattedTime = date.toLocaleString("ko-KR", {
+    hour: "2-digit",
+    minute: "2-digit",
     hour12: false,
   });
 
   switch (type) {
-    case 'full': {
+    case "full": {
       const formattedDate = date
-        .toLocaleString('ko-KR', {
-          year: '2-digit',
-          month: '2-digit',
-          day: '2-digit',
+        .toLocaleString("ko-KR", {
+          year: "2-digit",
+          month: "2-digit",
+          day: "2-digit",
         })
-        .replaceAll(' ', '')
-        .replace(/\.$/, '');
+        .replaceAll(" ", "")
+        .replace(/\.$/, "");
 
-      return formattedDate + ' ' + formattedTime;
+      return formattedDate + " " + formattedTime;
     }
-    case 'time': {
+    case "time": {
       return formattedTime;
     }
-    case 'elapsed': {
+    case "elapsed": {
       const startDate = new Date(Date.now());
       const targetDate = date;
 
@@ -67,11 +67,21 @@ export function getDateTime(type: getType, date: Date) {
 
       return `0초`;
     }
+    case "countdown": {
+      const startDate = Date.now();
+      const endDate = date.getTime();
+
+      const timeElapsed = endDate - startDate;
+      const seconds = Math.floor((timeElapsed % 60000) / 1000);
+      const minutes = Math.floor(timeElapsed / 60000);
+
+      return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    }
     default: {
       console.error(
-        `getDateTime function error: Unexpected type or props, (${type}, ${date}) received`
+        `getDateTime function error: Unexpected type or props, (${type}, ${date}) received`,
       );
-      return 'Error';
+      return "Error";
     }
   }
 }

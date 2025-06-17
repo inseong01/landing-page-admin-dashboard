@@ -29,7 +29,7 @@ export default function SidebarDisplay() {
 
   return (
     <div
-      className={`h-full ${isTabClicked ? "w-auto justify-between" : "w-full"} flex max-w-[475px] flex-col gap-10 rounded-tr-2xl rounded-br-2xl bg-[#F0F0F0] pt-10 pb-2`}
+      className={`h-full ${isTabClicked ? "w-auto justify-between" : "min-w-[380px] max-lg:min-w-[275px]"} flex max-w-[475px] flex-col gap-10 rounded-tr-2xl rounded-br-2xl bg-[#F0F0F0] pt-10 pb-2`}
     >
       {isTabClicked ? (
         <AdminPanel onClick={onClickSideBarIcon} />
@@ -45,7 +45,7 @@ function AdminPanel({ onClick }: { onClick: () => void }) {
     <>
       {/* 패널 */}
       <div className="flex h-auto w-full cursor-default px-4">
-        <div className="flex justify-between">
+        <div className="flex items-center justify-between">
           <button
             type="button"
             className="box-content flex p-1.5"
@@ -77,9 +77,11 @@ function AdminContent({ onClick }: { onClick: () => void }) {
   return (
     <>
       {/* 헤더 */}
-      <div className="flex h-[86px] w-full cursor-default flex-col gap-2.5 px-7">
-        <div className="flex justify-between">
-          <span className="text-4xl font-bold">관리자 대시보드</span>
+      <div className="flex h-[86px] w-full cursor-default flex-col gap-2.5 px-7 max-lg:gap-1">
+        <div className="flex items-center justify-between gap-10 max-lg:gap-4">
+          <span className="text-4xl font-bold max-lg:text-2xl">
+            관리자 대시보드
+          </span>
 
           <button type="button" className="p-1.5" onClick={onClick}>
             <img
@@ -90,13 +92,15 @@ function AdminContent({ onClick }: { onClick: () => void }) {
           </button>
         </div>
 
-        <span className="text-xl font-bold text-[#747474]">{loginText}</span>
+        <span className="text-xl font-bold text-[#747474] max-lg:text-lg">
+          {loginText}
+        </span>
       </div>
 
       {/* 메인 */}
-      <div className="flex h-[calc(100%-136px)] w-full flex-col justify-between gap-2.5">
+      <div className="flex h-[calc(100%-136px)] w-full flex-col justify-between gap-2.5 max-lg:gap-1">
         {/* 카테고리 목록 */}
-        <ul className="flex h-full flex-col gap-8 overflow-auto">
+        <ul className="flex h-full flex-col gap-8 overflow-auto max-lg:gap-4">
           {/* 카테고리 : 페이지 바로가기 */}
           <CollapsibleList>
             {(isExpanded, setIsExpanded) => (

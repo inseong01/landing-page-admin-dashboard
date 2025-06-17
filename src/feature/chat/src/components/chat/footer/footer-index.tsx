@@ -95,7 +95,7 @@ export default function ChatFooter({
         <button
           type="button"
           role="button"
-          className="flex items-center justify-center rounded-xl bg-[#336cb5] p-1 pr-[12px] pl-[14px] text-white hover:bg-[#2a5896] disabled:bg-[#757575] disabled:hover:pointer-events-none"
+          className="flex items-center justify-center rounded-xl bg-[#336cb5] p-1 pr-[12px] pl-[14px] text-white hover:bg-[#2a5896] disabled:pointer-events-none disabled:bg-[#757575]"
           onClick={onClickSendMessage}
           disabled={!isOpponentOnline}
           title="전송"

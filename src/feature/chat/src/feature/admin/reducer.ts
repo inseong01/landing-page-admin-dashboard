@@ -4,6 +4,7 @@ import {
   ADMIN_ID,
   type MessageMetaData,
   type CustomPresence,
+  initCustomPresence,
 } from "../../util/const/const";
 
 export type InitAdminAppState = {
@@ -29,12 +30,17 @@ interface CloseChatAction {
 
 interface AddUserListAction {
   type: "ADD_USER_LIST";
-  list: RealtimePresenceState<CustomPresence>;
-  myID: string;
+  userID: string;
+  newPresences: CustomPresence;
 }
 
-interface RemoveUserListAction {
-  type: "UPDATE_USER_OFFLINE";
+interface SyncUserListAction {
+  type: "SYNC_USER_LIST";
+  list: RealtimePresenceState<CustomPresence>;
+}
+
+interface SetUserOfflineAction {
+  type: "SET_USER_OFFLINE";
   key: string;
 }
 
@@ -60,7 +66,8 @@ export type ActionType =
   | OpenChatAction
   | CloseChatAction
   | AddUserListAction
-  | RemoveUserListAction
+  | SyncUserListAction
+  | SetUserOfflineAction
   | GetMessageAction
   | SetUserMessageStateAction
   | ReadUserMessageAction;
@@ -84,25 +91,48 @@ export function adminReducer(state: InitAdminAppState, action: ActionType) {
       };
     }
     case "ADD_USER_LIST": {
+      const newPresences = action.newPresences;
+      const userID = action.userID;
+
+      const isExistUser = Object.hasOwn(state.userList, userID);
+      if (isExistUser) {
+        return {
+          ...state,
+          userList: {
+            ...state.userList,
+            [userID]: { ...state.userList[userID], isOnline: true },
+          },
+        };
+      }
+
+      return {
+        ...state,
+        userList: { ...state.userList, [userID]: { ...newPresences } },
+      };
+    }
+    case "SYNC_USER_LIST": {
       const onlineUsersList = action.list;
-      const myID = action.myID;
 
       const filteredUserList = Object.entries(onlineUsersList)
-        .filter(([key]) => key !== myID) // 본인 ID 제외
+        .filter(([key]) => key !== ADMIN_ID) // 본인 ID 제외
         .map(([, value]) => value[0]); // 접속 상태 값 추출 (열려있는 탭 중 첫번째 정보)
-
       const onlineUsersObject = Object.fromEntries(
-        filteredUserList.map((user) => [user.userID, user]),
+        filteredUserList.map((user) => [
+          user.userID,
+          {
+            ...user,
+            isOnline: true,
+            messages: [...state.userList[user.userID].messages],
+          },
+        ]),
       );
-
-      if (!filteredUserList.length) return state;
 
       return {
         ...state,
         userList: { ...state.userList, ...onlineUsersObject },
       };
     }
-    case "UPDATE_USER_OFFLINE": {
+    case "SET_USER_OFFLINE": {
       const userID = action.key;
 
       return {
@@ -112,6 +142,7 @@ export function adminReducer(state: InitAdminAppState, action: ActionType) {
           [userID]: {
             ...state.userList[userID],
             isOnline: false,
+            isTyping: false,
           },
         },
       };
@@ -174,6 +205,7 @@ export function adminReducer(state: InitAdminAppState, action: ActionType) {
         userList: {
           ...state.userList,
           [id]: {
+            ...initCustomPresence,
             ...state.userList[id],
             isTyping,
           },

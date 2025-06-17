@@ -7,9 +7,6 @@ import ChatUIDisplay from "./feature/chat/src/chat-index";
 import SupbaseChannelSubscribe from "./feature/chat/src/chat-subscribe";
 
 /*
-  채팅 에러 예외처리
-  - leave 되어서 sync 때 연동되지 않았을 때 메시지 수신 가능하도록
-
   로그인 기능 구현
 */
 function App() {

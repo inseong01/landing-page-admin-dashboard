@@ -24,14 +24,16 @@ export default function CategoryTitle({
       onClick={onClickCategory}
       disabled={isExpanded === undefined}
     >
-      <span className="text-xl font-bold text-[#7D7D7D]">{title}</span>
+      <span className="text-xl font-bold text-[#7D7D7D] max-lg:text-lg">
+        {title}
+      </span>
 
       {isExpanded !== undefined && (
         <div className="flex p-1.5">
           <img
             src={ICON_LIST_DOWN}
             alt="펼치기"
-            className={`h-[20px] w-[20px] ${isExpanded ? "rotate-180" : "rotate-0"}`}
+            className={`h-[20px] w-[20px] max-lg:h-[18px] max-lg:w-[18px] ${isExpanded ? "rotate-180" : "rotate-0"}`}
           />
         </div>
       )}
