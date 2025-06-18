@@ -24,7 +24,7 @@ export default function CategoryTitle({
       onClick={onClickCategory}
       disabled={isExpanded === undefined}
     >
-      <span className="text-xl font-bold text-[#7D7D7D] max-lg:text-lg">
+      <span className="text-xl font-bold text-[#7D7D7D] max-lg:text-lg dark:text-white">
         {title}
       </span>
 

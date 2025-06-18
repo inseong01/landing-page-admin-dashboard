@@ -1,6 +1,8 @@
 import { useAtomValue } from "jotai";
-import ICON_MOVE_WINDOW from "./../../assets/icon-move-window-light.svg";
+
 import { categoryAtom } from "../../util/store/atom/global";
+
+import ICON_MOVE_WINDOW from "./../../assets/icon-move-window.svg";
 
 export default function CategoryList({
   icon_src,
@@ -23,7 +25,7 @@ export default function CategoryList({
 
   return (
     <li
-      className={`categoryPd flex ${cateogry === listTitle ? "bg-[#e6e6e6]" : ""} ${url ? "cursor-default" : "cursor-pointer"} items-center justify-between hover:bg-[#e6e6e6]`}
+      className={`categoryPd flex ${cateogry === listTitle ? "bg-[#e6e6e6] dark:bg-[#4D4D4D]" : ""} ${url ? "cursor-default" : "cursor-pointer"} items-center justify-between hover:bg-[#e6e6e6] dark:hover:bg-[#4D4D4D]`}
       onClick={onClick}
     >
       <div className="flex items-center gap-7 max-lg:gap-3.5">
@@ -31,11 +33,11 @@ export default function CategoryList({
           <img src={icon_src} alt={icon_alt} />
         </div>
 
-        <div className="flex items-center justify-center gap-3 text-xl font-bold text-[#7D7D7D] max-lg:text-lg">
+        <div className="flex items-center justify-center gap-3 text-xl font-bold text-[#7D7D7D] max-lg:text-lg dark:text-white">
           <span>{listTitle}</span>
 
           {hasAlert && (
-            <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#E83939]"></span>
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#E83939] dark:bg-[#CD5656]"></span>
           )}
         </div>
       </div>

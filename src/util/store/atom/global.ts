@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 
-export const categoryAtom = atom("로그인");
+export const categoryAtom = atom("");
 
 export const loginStateAtom = atom(false);
 

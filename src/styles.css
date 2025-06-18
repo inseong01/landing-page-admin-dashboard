@@ -14,9 +14,30 @@
     box-sizing: border-box;
   }
 
+  @media (prefers-color-scheme: dark) {
+    .chatBoxBorder {
+      border: 1px solid #353535;
+      background-color: #353535;
+      color: #fff;
+    }
+  }
+
   @keyframes softBlink {
     50% {
       opacity: 0.5;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .fadeIn {
+    animation: fadeIn 1s both;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
     }
     100% {
       opacity: 1;
