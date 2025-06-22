@@ -1,11 +1,10 @@
 import { NavLink } from "react-router";
+import MessageCaption from "./components/message/caption-description";
 
 export default function NotFound() {
   return (
     <div className="flex h-dvh w-full cursor-default flex-col items-center justify-center gap-4 font-[Noto_Sans] dark:bg-[#353535]">
-      <span className="text-xl font-bold text-[#434343] dark:text-[#D9D9D9]">
-        페이지를 찾을 수 없습니다.
-      </span>
+      <MessageCaption description="페이지를 찾을 수 없습니다." />
 
       <nav>
         <NavLink

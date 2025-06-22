@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 
-import ICON_LIST_DOWN from "./../../assets/icon-list-down.svg";
+import ICON_LIST_DOWN from "./assets/icon-list-down.svg";
 
 export default function CategoryTitle({
   title,

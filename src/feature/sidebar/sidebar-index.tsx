@@ -1,29 +1,30 @@
 import { useContext, useState } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
 
-import ICON_LANDING_PAGE_LIGHT from "./../../../assets/icon-vite-logo-light.svg";
-import ICON_LANDING_PAGE_DARK from "./../../../assets/icon-vite-logo-dark.svg";
-import ICON_TISTORY_LIGHT from "./../../../assets/icon-tistory-logo-light.svg";
-import ICON_TISTORY_DARK from "./../../../assets/icon-tistory-logo-dark.svg";
-import ICON_GITHUB_LIGHT from "./../../../assets/icon-git-logo-light.svg";
-import ICON_GITHUB_DARK from "./../../../assets/icon-git-logo-dark.svg";
-import ICON_CHAT_LIGHT from "./../../../assets/icon-chat-light.svg";
-import ICON_CHAT_DARK from "./../../../assets/icon-chat-dark.svg";
-import ICON_SIDEBAR_LIGHT from "./../../../assets/icon-sidebar-light.svg";
-import ICON_SIDEBAR_DARK from "./../../../assets/icon-sidebar-dark.svg";
+import ICON_LANDING_PAGE_LIGHT from "./assets/icon-vite-logo-light.svg";
+import ICON_LANDING_PAGE_DARK from "./assets/icon-vite-logo-dark.svg";
+import ICON_TISTORY_LIGHT from "./assets/icon-tistory-logo-light.svg";
+import ICON_TISTORY_DARK from "./assets/icon-tistory-logo-dark.svg";
+import ICON_GITHUB_LIGHT from "./assets/icon-git-logo-light.svg";
+import ICON_GITHUB_DARK from "./assets/icon-git-logo-dark.svg";
+import ICON_CHAT_LIGHT from "./assets/icon-chat-light.svg";
+import ICON_CHAT_DARK from "./assets/icon-chat-dark.svg";
+import ICON_SIDEBAR_LIGHT from "./assets/icon-sidebar-light.svg";
+import ICON_SIDEBAR_DARK from "./assets/icon-sidebar-dark.svg";
 
 import {
   categoryAtom,
   loginStateAtom,
   receivedMsgStateAtom,
-} from "../../../util/store/atom/global";
-import { ThemeContext } from "../../../util/context/global";
+  type CategoryAtom,
+} from "../../util/store/atom/global";
+import { ThemeContext } from "../../util/context/global";
 
-import CollapsibleList from "../../../components/tab/category-collapsible";
-import CategoryTitle from "../../../components/tab/category-title";
-import CategoryList from "../../../components/tab/category-list";
+import CollapsibleList from "../../components/tab/category-collapsible";
+import CategoryTitle from "../../components/tab/category-title";
+import CategoryList from "../../components/tab/category-list";
 
-import LoginStatus from "../../login/login-status";
+import LoginStatus from "../login/login-status";
 
 export default function SidebarDisplay() {
   const [isTabClicked, setTabClick] = useState(false);
@@ -77,7 +78,7 @@ function AdminContent({ onClick }: { onClick: () => void }) {
   const isLogin = useAtomValue(loginStateAtom);
   const hasReceivedMsg = useAtomValue(receivedMsgStateAtom);
 
-  function onClickCategory(title: string) {
+  function onClickCategory(title: CategoryAtom) {
     if (!isLogin) {
       return alert("로그인이 필요합니다.");
     }
@@ -127,7 +128,7 @@ function AdminContent({ onClick }: { onClick: () => void }) {
                 {isExpanded && (
                   <ul>
                     <CategoryList
-                      listTitle="랜딩 페이지"
+                      title="랜딩 페이지"
                       icon_alt="랜딩 페이지 파비콘"
                       icon_src={
                         theme !== "dark"
@@ -140,7 +141,7 @@ function AdminContent({ onClick }: { onClick: () => void }) {
                     />
 
                     <CategoryList
-                      listTitle="티스토리"
+                      title="티스토리"
                       icon_alt="티스토리 파비콘"
                       icon_src={
                         theme !== "dark"
@@ -153,7 +154,7 @@ function AdminContent({ onClick }: { onClick: () => void }) {
                     />
 
                     <CategoryList
-                      listTitle="깃허브"
+                      title="깃허브"
                       icon_alt="깃허브 파비콘"
                       icon_src={
                         theme !== "dark" ? ICON_GITHUB_LIGHT : ICON_GITHUB_DARK
@@ -174,11 +175,12 @@ function AdminContent({ onClick }: { onClick: () => void }) {
 
             <ul>
               <CategoryList
-                listTitle="실시간 문의"
+                name="CHAT"
+                title="실시간 문의"
                 icon_alt="실시간 문의 아이콘"
                 icon_src={theme !== "dark" ? ICON_CHAT_LIGHT : ICON_CHAT_DARK}
                 hasURL={false}
-                onClick={() => onClickCategory("실시간 문의")}
+                onClick={() => onClickCategory("CHAT")}
                 hasAlert={hasReceivedMsg}
               />
             </ul>

@@ -1,6 +1,6 @@
 import type { SetStateAction } from "jotai";
 
-import { supabase } from "../../../util/supabase/global";
+import { supabase } from "../../../../util/supabase/global";
 
 import type {
   InitInputErrorState,
@@ -125,7 +125,8 @@ export async function sendPasswordResetEmail({ email }: { email: string }) {
   const user_email = email;
 
   const res = await supabase.auth.resetPasswordForEmail(user_email, {
-    redirectTo: "http://localhost:5173/reset/password",
+    redirectTo:
+      "https://landing-page-admin-dashboard.vercel.app/reset/password",
   });
 
   if (res?.error?.code?.toString().startsWith("4")) {

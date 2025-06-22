@@ -7,10 +7,13 @@ import {
 import { useNavigate } from "react-router";
 import type { UserResponse } from "@supabase/supabase-js";
 
-import { initInputErrorState, initInputValueState } from "./const/login-const";
-import { updatePasswordAction } from "./function/actions";
-import { isValiPasswordType } from "./function/input-submit";
-import { useInputValue } from "./hook/use-input-value";
+import {
+  initInputErrorState,
+  initInputValueState,
+} from "./util/const/login-const";
+import { updatePasswordAction } from "./util/function/actions";
+import { isValiPasswordType } from "./util/function/input-submit";
+import { useInputValue } from "./util/hook/use-input-value";
 
 import FormTitle from "./components/form/form-title";
 import InputErrorMessage from "./components/input/input-message";

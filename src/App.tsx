@@ -4,13 +4,22 @@ import { categoryAtom } from "./util/store/atom/global";
 import { ThemeContext } from "./util/context/global";
 import { useSystemTheme } from "./util/hook/use-system-theme";
 
+import MessageCaption from "./components/message/caption-description";
+
+import SupabaseChannelSubscribe from "./feature/chat/chat-subscribe";
+import SidebarDisplay from "./feature/sidebar/sidebar-index";
 import ChatUIDisplay from "./feature/chat/chat-index";
-import SupbaseChannelSubscribe from "./feature/chat/chat-subscribe";
 import LoginUIDisplay from "./feature/login/login-index";
-import SidebarDisplay from "./feature/chat/sidebar/sidebar-index";
+
+const categoryUIMap = {
+  LOGIN: LoginUIDisplay,
+  CHAT: ChatUIDisplay,
+};
 
 function App() {
   const theme = useSystemTheme();
+  const category = useAtomValue(categoryAtom);
+  const CategoryUI = categoryUIMap[category];
 
   return (
     <ThemeContext.Provider value={theme}>
@@ -20,9 +29,9 @@ function App() {
 
         {/* right */}
         <div className="h-full w-full flex-1">
-          <SupbaseChannelSubscribe>
-            <CategoryUIDisplay />
-          </SupbaseChannelSubscribe>
+          <SupabaseChannelSubscribe>
+            {CategoryUI ? <CategoryUI /> : <ErrorUI />}
+          </SupabaseChannelSubscribe>
         </div>
       </main>
     </ThemeContext.Provider>
@@ -31,18 +40,10 @@ function App() {
 
 export default App;
 
-function CategoryUIDisplay() {
-  const cateogry = useAtomValue(categoryAtom);
-
-  switch (cateogry) {
-    case "로그인": {
-      return <LoginUIDisplay />;
-    }
-    case "실시간 문의": {
-      return <ChatUIDisplay />;
-    }
-    default: {
-      return <></>;
-    }
-  }
+function ErrorUI() {
+  return (
+    <div className="flex h-screen w-full items-center justify-center">
+      <MessageCaption description="오류가 발생했습니다." />
+    </div>
+  );
 }

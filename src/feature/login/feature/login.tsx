@@ -3,7 +3,7 @@ import type { ChangeEvent } from "react";
 import type {
   InitInputErrorState,
   InitInputValueState,
-} from "../const/login-const";
+} from "../util/const/login-const";
 
 import InputTitleBox from "../components/input/input-title";
 import InputErrorMessage from "../components/input/input-message";

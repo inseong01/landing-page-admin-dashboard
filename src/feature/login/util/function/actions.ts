@@ -3,7 +3,7 @@ import type {
   UserResponse,
 } from "@supabase/supabase-js";
 
-import { supabase } from "../../../util/supabase/global";
+import { supabase } from "../../../../util/supabase/global";
 
 export async function loginAction(
   _currentState: AuthTokenResponsePassword,

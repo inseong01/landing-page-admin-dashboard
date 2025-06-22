@@ -3,8 +3,8 @@ import { useContext } from "react";
 import { supabase } from "../../util/supabase/global";
 import { ThemeContext } from "../../util/context/global";
 
-import ICON_LOGIN_LIGHT from "./../../assets/icon-login-light.svg";
-import ICON_LOGIN_DARK from "./../../assets/icon-login-dark.svg";
+import ICON_LOGIN_LIGHT from "./assets/icon-login-light.svg";
+import ICON_LOGIN_DARK from "./assets/icon-login-dark.svg";
 
 export default function LoginStatus() {
   const theme = useContext(ThemeContext);

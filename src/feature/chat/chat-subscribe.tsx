@@ -24,7 +24,7 @@ import {
 
 const ID = ADMIN_ID;
 
-export default function SupbaseChannelSubscribe({
+export default function SupabaseChannelSubscribe({
   children,
 }: {
   children: ReactNode;
@@ -152,7 +152,7 @@ export default function SupbaseChannelSubscribe({
         case "INITIAL_SESSION": {
           if (session === null) {
             setLoginState(false);
-            setCateogry("로그인");
+            setCateogry("LOGIN");
           } else {
             setLoginState(true);
           }
@@ -160,18 +160,18 @@ export default function SupbaseChannelSubscribe({
         }
         case "SIGNED_IN": {
           setLoginState(true);
-          setCateogry("실시간 문의");
+          setCateogry("CHAT");
           return;
         }
         case "SIGNED_OUT": {
           alert("로그아웃 되었습니다.");
           setLoginState(false);
-          setCateogry("로그인");
+          setCateogry("LOGIN");
           return;
         }
         case "PASSWORD_RECOVERY": {
           setLoginState(true);
-          setCateogry("실시간 문의");
+          setCateogry("CHAT");
         }
       }
     });
